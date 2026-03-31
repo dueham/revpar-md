@@ -1,0 +1,37 @@
+# Hotel data folders — stored in S3, not GitHub
+Hampton_Superior/
+Hampton_Lino_Lakes/
+Hilton_Checkers_LA/
+Hampton_Cherry_Creek/
+holiday_inn_express_superior/
+Hotel_Indigo_Rochester/
+Embassy_Suites_Brooklyn_Center/
+hotels/
+Photos/
+__pycache__/
+
+# Sensitive auth files — stored in S3, not GitHub
+users.yaml
+session_tokens.json
+cal_session_tokens.json
+
+# JSON data files — stored in S3, not GitHub
+call_recap_ps.json
+meeting_notes.json
+rate_change_rates.json
+rate_change_snap.json
+
+# Files not needed in AWS version
+launcher_app.py
+start_revparmd.bat
+*.bat
+*.db
+
+# Python cache
+*.pyc
+*.pyo
+*.pyd
+
+# OS files
+.DS_Store
+Thumbs.db

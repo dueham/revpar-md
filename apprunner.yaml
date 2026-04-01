@@ -18,3 +18,13 @@ run:
       value: "200"
     - name: PYTHONUNBUFFERED
       value: "1"
+    - name: PYTHONPATH
+      value: "/usr/local/lib/python3.11/site-packages"
+```
+
+Save, close, then push:
+```
+cd "C:\Users\rzell\OneDrive - Oliver Companies\RevParApp_AWS"
+git add apprunner.yaml
+git commit -m "Fix PYTHONPATH for App Runner runtime"
+git push

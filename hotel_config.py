@@ -24,25 +24,33 @@ def _get_secret(key, default=""):
     """Read from Streamlit secrets if available, fall back to env vars."""
     try:
         import streamlit as st
-        return st.secrets[key]
+        val = st.secrets.get(key)
+        if val is not None:
+            return val
     except Exception:
-        return os.environ.get(key, default)
+        pass
+    return os.environ.get(key, default)
 
-S3_BUCKET  = _get_secret("S3_BUCKET",  "revpar-md-data")
-AWS_REGION = _get_secret("AWS_REGION", "us-east-1")
+S3_BUCKET  = "revpar-md-data"
+AWS_REGION = "us-east-1"
 
 def _s3():
     """Create boto3 S3 client using Streamlit secrets or env vars."""
+    bucket     = _get_secret("S3_BUCKET",             "revpar-md-data")
+    region     = _get_secret("AWS_REGION",            "us-east-1")
     key_id     = _get_secret("AWS_ACCESS_KEY_ID",     "")
     secret_key = _get_secret("AWS_SECRET_ACCESS_KEY", "")
+    global S3_BUCKET, AWS_REGION
+    S3_BUCKET  = bucket
+    AWS_REGION = region
     if key_id and secret_key:
         return boto3.client(
             "s3",
-            region_name=AWS_REGION,
+            region_name=region,
             aws_access_key_id=key_id,
             aws_secret_access_key=secret_key,
         )
-    return boto3.client("s3", region_name=AWS_REGION)
+    return boto3.client("s3", region_name=region)
 
 def _photo_url(filename: str) -> str:
     """Return the public-readable S3 URL for a hotel photo."""

@@ -3,10 +3,9 @@ runtime: python311
 build:
   commands:
     build:
-      - pip3 install -r requirements.txt
-      - cp -r /usr/local/lib/python3.11/site-packages /app/site-packages
+      - echo "build complete"
 run:
-  command: PYTHONPATH=/app/site-packages python3 -m streamlit run revpar_app.py --server.port 8080 --server.address 0.0.0.0 --server.headless true --server.enableCORS false --server.enableXsrfProtection false
+  command: pip3 install -r requirements.txt && python3 -m streamlit run revpar_app.py --server.port 8080 --server.address 0.0.0.0 --server.headless true --server.enableCORS false --server.enableXsrfProtection false
   network:
     port: 8080
     env: APP_PORT

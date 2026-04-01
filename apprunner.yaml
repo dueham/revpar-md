@@ -3,7 +3,7 @@ runtime: python311
 build:
   commands:
     build:
-      - pip install -r requirements.txt
+      - pip3 install -r requirements.txt
 run:
   command: streamlit run revpar_app.py --server.port 8080 --server.address 0.0.0.0 --server.headless true --server.enableCORS false --server.enableXsrfProtection false
   network:

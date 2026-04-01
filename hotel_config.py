@@ -20,10 +20,28 @@ import boto3
 from botocore.exceptions import ClientError
 
 # ── AWS CONFIG ────────────────────────────────────────────────────────────────
-S3_BUCKET  = os.environ.get("S3_BUCKET", "revpar-md-data")
-AWS_REGION = os.environ.get("AWS_REGION", "us-east-1")
+def _get_secret(key, default=""):
+    """Read from Streamlit secrets if available, fall back to env vars."""
+    try:
+        import streamlit as st
+        return st.secrets[key]
+    except Exception:
+        return os.environ.get(key, default)
+
+S3_BUCKET  = _get_secret("S3_BUCKET",  "revpar-md-data")
+AWS_REGION = _get_secret("AWS_REGION", "us-east-1")
 
 def _s3():
+    """Create boto3 S3 client using Streamlit secrets or env vars."""
+    key_id     = _get_secret("AWS_ACCESS_KEY_ID",     "")
+    secret_key = _get_secret("AWS_SECRET_ACCESS_KEY", "")
+    if key_id and secret_key:
+        return boto3.client(
+            "s3",
+            region_name=AWS_REGION,
+            aws_access_key_id=key_id,
+            aws_secret_access_key=secret_key,
+        )
     return boto3.client("s3", region_name=AWS_REGION)
 
 def _photo_url(filename: str) -> str:
